@@ -3,6 +3,8 @@ const CPUs = require('os').cpus().length;
 const PDF2Pic = require("pdf2pic");
 const pdfjsLib = require('pdfjs-dist');
 
+const { convertToArray, splitPages } = require('./utilities');
+
 const sourcePath = `${process.cwd()}/source/file.pdf`;
 
 const density = 72;
@@ -17,10 +19,13 @@ const converter = new PDF2Pic({
   size,
 });
 
-let totalPages = 357;
-(async function getTotalPages() {
-  totalPages = await pdfjsLib.getDocument(sourcePath).numPages;
-}());
+const totalPages = convertToArray(357);
+const threads = convertToArray(CPUs);
+const workload = splitPages(totalPages, threads);
+
+console.log('workload', workload);
+
+process.exit(0)
 
 async function iterator(array = [], iterationsPerCore = 0, maxPages = 0) {
   console.log(array, maxPages)
@@ -52,7 +57,7 @@ const iterationsPerCore = Math.ceil(Math.ceil(totalPages / CPUs) / 10);
 
 const x = totalPages.reduce((arr, page) => {
   for (let i = 0; i < CPUs; i += 1) {
-    
+
   }
 }, []);
 
