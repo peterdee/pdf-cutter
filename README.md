@@ -16,10 +16,20 @@ Install the project:
 ```shell script
 git clone https://github.com/peterdee/pdf-cutter
 cd ./pdf-cutter
-nvm use 12.16.1
+nvm use 16
 npm i
 ```
 
 ### Usage
 
-*In progress*
+Run the following script inside of the project directory:
+
+```shell script
+npm start ~/path/to/file.pdf
+```
+
+A new directory with the results of conversion is going to be created (named after a file)
+
+### License
+
+[MIT](./LICENSE.md)

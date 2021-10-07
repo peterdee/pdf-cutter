@@ -1,6 +1,20 @@
+const { stat } = require('fs/promises');
+
+/**
+ * Check file accessibility
+ * @param {string} path - path to the file
+ * @returns {Promise<void>}
+ */
+const checkAccessibility = async (path = '') => {
+  const stats = await stat(path);
+  if (!stats.isFile()) {
+    throw new Error('Provided path is incorrect!');
+  }
+};
+
 /**
  * Convert the provided value to array
- * @param {number} value - value to convert 
+ * @param {number} value - value to convert
  * @param {boolean} hasZero - true if the resulting array should start with zero
  * @returns {number[]}
  */
@@ -18,11 +32,14 @@ const convertToArray = (
 const splitPages = (
   pages = [],
   threads = [],
-) => threads.map((_, threadIndex) => pages.filter(
-  (_, pageIndex) => ((threadIndex + pageIndex) % threads.length) === 0),
+) => threads.map(
+  (_, threadIndex) => pages.filter(
+    (__, pageIndex) => ((threadIndex + pageIndex) % threads.length) === 0,
+  ),
 );
 
 module.exports = {
+  checkAccessibility,
   convertToArray,
   splitPages,
 };
